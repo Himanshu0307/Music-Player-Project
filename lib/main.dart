@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:project/Login/login.dart';
 import 'package:project/Music%20Player/musicplayer.dart';
+import 'package:project/Recommendation/Recommendation.dart';
 
 void main() {
   runApp(const MyApp());
@@ -78,8 +79,10 @@ class _MyHomePageState extends State<MyHomePage> {
     // The Flutter framework has been optimized to make rerunning build methods
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
-    return Scaffold(
-      body: MusicPlayer(),
+    return SafeArea(
+      child: Scaffold(
+        body: MusicPlayer(),
+      ),
     );
   }
 }
