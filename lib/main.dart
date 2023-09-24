@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:project/Login/login.dart';
 import 'package:project/Music%20Player/musicplayer.dart';
+import 'package:project/Playlist/playlistQueue.dart';
 import 'package:project/Recommendation/Recommendation.dart';
+import 'package:project/provider/Playlist.dart';
+import 'package:provider/provider.dart';
 
 void main() {
   runApp(const MyApp());
@@ -13,39 +16,36 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
+    return ChangeNotifierProvider<Playlist>(
+      create: (context) => Playlist(),
+      child: MaterialApp(
+        title: 'Flutter Demo',
+        theme: ThemeData(
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+          useMaterial3: true,
+        ),
+        home: MyHomePage(),
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
+class MyHomePage extends StatelessWidget {
+  static GlobalKey<ScaffoldState> scstate = GlobalKey<ScaffoldState>();
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 3,
+      length: 4,
       child: SafeArea(
         child: Scaffold(
+          key: scstate,
           body: TabBarView(children: [
             RecommendationScreen(),
             RecommendationScreen(),
-            RecommendationScreen(),
+            PlaylistQueue(),
+            MusicPlayer()
           ]),
-          bottomNavigationBar: TabBar(tabs: [
+          bottomNavigationBar: const TabBar(tabs: [
             Tab(
               text: "Home",
               icon: Icon(Icons.home),
@@ -57,6 +57,10 @@ class _MyHomePageState extends State<MyHomePage> {
             Tab(
               text: "Playlist",
               icon: Icon(Icons.playlist_add),
+            ),
+            Tab(
+              text: "Player",
+              icon: Icon(Icons.play_arrow),
             ),
           ]),
         ),

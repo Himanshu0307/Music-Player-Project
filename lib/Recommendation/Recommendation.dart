@@ -1,11 +1,12 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:project/Model/Song.dart';
 import 'package:http/http.dart' as http;
+import 'package:project/provider/Playlist.dart';
+import 'package:provider/provider.dart';
 
 class RecommendationScreen extends StatelessWidget {
-  const RecommendationScreen({super.key});
+  RecommendationScreen({super.key});
 
   Future<List<Song>> getList() {
     // var url = Uri.dataFromString("http://192.168.232.121:5000/getInformation");
@@ -49,13 +50,15 @@ class RecommendationScreen extends StatelessWidget {
     );
   }
 
+  // final TextEditingController _controller = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
         future: getList(),
         builder: (context, data) {
-          print(data.data);
           if (data.connectionState == ConnectionState.done) {
+            // var songlist = data.data;
             return Container(
                 height: 400,
                 child: SingleChildScrollView(
@@ -67,6 +70,8 @@ class RecommendationScreen extends StatelessWidget {
                           Expanded(
                             flex: 4,
                             child: TextField(
+                              // controller: _controller,
+                              onChanged: (value) {},
                               decoration: InputDecoration(
                                   hintText: "Enter Song Name",
                                   border: OutlineInputBorder()),
@@ -119,7 +124,9 @@ class SongItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {},
+      onTap: () {
+        Provider.of<Playlist>(context, listen: false).AddSong(song);
+      },
       child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
@@ -135,13 +142,21 @@ class SongItem extends StatelessWidget {
         child: Column(
           children: [
             Image.network(song.ImageUrl),
-            ListTile(
-              title: Text(song.Title),
-              subtitle: Text(song.ArtistName),
-              trailing: song.isFav
-                  ? Icon(Icons.favorite)
-                  : Icon(Icons.favorite_outline),
-            )
+            StatefulBuilder(builder: (context, setState) {
+              return ListTile(
+                  title: Text(song.Title),
+                  subtitle: Text(song.ArtistName),
+                  trailing: InkWell(
+                    child: song.isFav
+                        ? Icon(Icons.favorite)
+                        : Icon(Icons.favorite_outline),
+                    onTap: () {
+                      setState(() {
+                        song.isFav = !song.isFav;
+                      });
+                    },
+                  ));
+            })
           ],
         ),
       ),
