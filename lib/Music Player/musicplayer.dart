@@ -5,70 +5,35 @@ import 'package:project/main.dart';
 import 'package:project/provider/Playlist.dart';
 import 'package:provider/provider.dart';
 
-class MusicPlayer extends StatefulWidget {
-  @override
-  _MusicPlayerState createState() => _MusicPlayerState();
-}
+// class MusicPlayer extends StatefulWidget {
+//   @override
+//   _MusicPlayerState createState() => _MusicPlayerState();
+// }
 
-class _MusicPlayerState extends State<MusicPlayer> {
+class MusicPlayer extends StatelessWidget {
   List<Song>? playlist;
-  //  [
-  //   Song(
-  //       0,
-  //       "Pop",
-  //       "Himanshu",
-  //       "https://www.ie.edu/insights/wp-content/uploads/2020/10/Hindi-Art-for-Busniness-Leaders.jpg",
-  //       "http://192.168.29.221:5000/stream"),
-  //   Song(
-  //       1,
-  //       "Latin",
-  //       "Himanshu1",
-  //       "https://www.ie.edu/insights/wp-content/uploads/2020/10/Hindi-Art-for-Busniness-Leaders.jpg",
-  //       "http://192.168.29.221:5000"),
-  //   Song(
-  //       2,
-  //       "Jazz",
-  //       "Himanshu1",
-  //       "https://www.ie.edu/insights/wp-content/uploads/2020/10/Hindi-Art-for-Busniness-Leaders.jpg",
-  //       "http://mediaserv30.live-streams.nl:8006/live"),
-  //   Song(
-  //       3,
-  //       "Lounge",
-  //       "Himanshu1",
-  //       "https://media.istockphoto.com/id/1183183783/photo/female-artist-works-on-abstract-oil-painting-moving-paint-brush-energetically-she-creates.jpg?s=612x612&w=0&k=20&c=JLPrSmpdzPklAVKycBJ83oPASPfFPS46XvN0TShfLwI=",
-  //       "http://mediaserv30.live-streams.nl:8036/live"),
-  // ];
   Song? currentPlaying;
   double volume = 0.7;
   final player = AudioPlayer();
 
   @override
-  void dispose() {
-    // TODO: implement dispose
-    Provider.of<Playlist>(MyHomePage.scstate.currentContext!, listen: false)
-        .removeListener(() {});
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     Provider.of<Playlist>(MyHomePage.scstate.currentContext!, listen: false)
-        .addListener(() {
+        .addListener(() async {
       var prvcurrentPlaying = Provider.of<Playlist>(
           MyHomePage.scstate.currentContext!,
           listen: false);
       if (prvcurrentPlaying.currentPlaying == null) return;
       if (currentPlaying != prvcurrentPlaying.currentPlaying) {
-        setState(() async {
-          await player.stop();
-          await player.release();
-          currentPlaying = prvcurrentPlaying.currentPlaying;
-          await player.setSourceUrl(currentPlaying!.StreamUrl);
-          await player.resume();
-          playlist = prvcurrentPlaying.songs;
-        });
+        await player.stop();
+        await player.release();
+        currentPlaying = prvcurrentPlaying.currentPlaying;
+        await player.setSourceUrl(currentPlaying!.StreamUrl);
+        await player.resume();
+        playlist = prvcurrentPlaying.songs;
       }
     });
+
     return Column(
       children: [
         (playlist == null || playlist!.isEmpty)
@@ -228,9 +193,7 @@ class _MusicPlayerState extends State<MusicPlayer> {
                     ? Icons.favorite
                     : Icons.favorite_outline),
                 onPressed: () {
-                  setState(() {
-                    currentPlaying!.isFav = !currentPlaying!.isFav;
-                  });
+                  currentPlaying!.isFav = !currentPlaying!.isFav;
                 },
               ),
               IconButton(

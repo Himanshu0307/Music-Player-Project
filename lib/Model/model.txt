@@ -1,0 +1,27 @@
+ //  [
+  //   Song(
+  //       0,
+  //       "Pop",
+  //       "Himanshu",
+  //       "https://www.ie.edu/insights/wp-content/uploads/2020/10/Hindi-Art-for-Busniness-Leaders.jpg",
+  //       "http://192.168.29.221:5000/stream"),
+  //   Song(
+  //       1,
+  //       "Latin",
+  //       "Himanshu1",
+  //       "https://www.ie.edu/insights/wp-content/uploads/2020/10/Hindi-Art-for-Busniness-Leaders.jpg",
+  //       "http://192.168.29.221:5000"),
+  //   Song(
+  //       2,
+  //       "Jazz",
+  //       "Himanshu1",
+  //       "https://www.ie.edu/insights/wp-content/uploads/2020/10/Hindi-Art-for-Busniness-Leaders.jpg",
+  //       "http://mediaserv30.live-streams.nl:8006/live"),
+  //   Song(
+  //       3,
+  //       "Lounge",
+  //       "Himanshu1",
+  //       "https://media.istockphoto.com/id/1183183783/photo/female-artist-works-on-abstract-oil-painting-moving-paint-brush-energetically-she-creates.jpg?s=612x612&w=0&k=20&c=JLPrSmpdzPklAVKycBJ83oPASPfFPS46XvN0TShfLwI=",
+  //       "http://mediaserv30.live-streams.nl:8036/live"),
+  // ];
+ 

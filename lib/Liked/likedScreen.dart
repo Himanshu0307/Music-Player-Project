@@ -5,10 +5,12 @@ import 'package:http/http.dart' as http;
 import 'package:project/provider/Playlist.dart';
 import 'package:provider/provider.dart';
 
-class RecommendationScreen extends StatelessWidget {
-  RecommendationScreen({super.key});
+class LikedScreen extends StatelessWidget {
+  LikedScreen({super.key});
 
   Future<List<Song>> getList() {
+    // var url = Uri.dataFromString("http://192.168.232.121:5000/getInformation");
+    // return http.get(url);
     return Future.delayed(
       Duration(seconds: 2),
       () {
@@ -48,7 +50,7 @@ class RecommendationScreen extends StatelessWidget {
     );
   }
 
-  final TextEditingController _controller = TextEditingController();
+  // final TextEditingController _controller = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -68,7 +70,7 @@ class RecommendationScreen extends StatelessWidget {
                           Expanded(
                             flex: 4,
                             child: TextField(
-                              controller: _controller,
+                              // controller: _controller,
                               onChanged: (value) {},
                               decoration: InputDecoration(
                                   hintText: "Enter Song Name",
@@ -82,11 +84,7 @@ class RecommendationScreen extends StatelessWidget {
                         ],
                       ),
                       SizedBox(
-                          height: 700,
-                          child: SongGrid(
-                            songs: (data.data!),
-                            controller: _controller,
-                          ))
+                          height: 700, child: SongGrid(songs: (data.data!)))
                     ],
                   ),
                 ));
@@ -96,43 +94,10 @@ class RecommendationScreen extends StatelessWidget {
   }
 }
 
-class SongGrid extends StatefulWidget {
+class SongGrid extends StatelessWidget {
   final List<Song> songs;
-  final TextEditingController controller;
 
-  const SongGrid({Key? key, required this.songs, required this.controller})
-      : super(key: key);
-
-  @override
-  State<SongGrid> createState() => _SongGridState();
-}
-
-class _SongGridState extends State<SongGrid> {
-  late List<Song> songs = widget.songs;
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    print("initialised");
-    widget.controller.addListener(() {
-      setState(() {
-        songs = widget.songs
-            .where(
-              (element) => element.Title.toLowerCase()
-                  .contains(widget.controller.text.toLowerCase()),
-            )
-            .toList();
-      });
-    });
-  }
-
-  @override
-  void dispose() {
-    print("sfdsfsfsfsdfs");
-    // TODO: implement dispose
-    widget.controller.removeListener(() {});
-    super.dispose();
-  }
+  const SongGrid({Key? key, required this.songs}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
